@@ -1,0 +1,10 @@
+﻿  tema3.cpp
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema3\Gramatica.h(142,28): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema3\Gramatica.h(171,38): warning C4101: 'ex': unreferenced local variable
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema3\tema3.cpp(115,20): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema3\tema3.cpp(132,36): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema3\tema3.cpp(142,40): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema3\tema3.cpp(157,28): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema3\tema3.cpp(301,11): warning C4566: character represented by universal-character-name '\u0219' cannot be represented in the current code page (1252)
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema3\tema3.cpp(333,13): warning C4326: return type of 'main' should be 'int' instead of 'void'
+  tema3.vcxproj -> C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema3\x64\Debug\tema3.exe

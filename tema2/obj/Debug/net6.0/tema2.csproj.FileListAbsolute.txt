@@ -1,0 +1,14 @@
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema2\bin\Debug\net6.0\tema2.exe
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema2\bin\Debug\net6.0\tema2.deps.json
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema2\bin\Debug\net6.0\tema2.runtimeconfig.json
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema2\bin\Debug\net6.0\tema2.dll
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema2\bin\Debug\net6.0\tema2.pdb
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema2\obj\Debug\net6.0\tema2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema2\obj\Debug\net6.0\tema2.AssemblyInfoInputs.cache
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema2\obj\Debug\net6.0\tema2.AssemblyInfo.cs
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema2\obj\Debug\net6.0\tema2.csproj.CoreCompileInputs.cache
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema2\obj\Debug\net6.0\tema2.dll
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema2\obj\Debug\net6.0\refint\tema2.dll
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema2\obj\Debug\net6.0\tema2.pdb
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema2\obj\Debug\net6.0\tema2.genruntimeconfig.cache
+C:\Users\Andre\Documents\ULBS\AN_3\LimbajeFormaleSiTranslatoare\tema2\obj\Debug\net6.0\ref\tema2.dll
