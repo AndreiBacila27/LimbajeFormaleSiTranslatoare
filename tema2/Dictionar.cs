@@ -15,10 +15,18 @@ namespace tema2
 
         public Dictionar()
         {
-            adaugaTActiuni();
-            adaugaTSalt();
-            adaugaProductii();
+            
         }
+
+  public Dictionar(Dictionary<ProdSiStare, string> dictionarTActiuni, Dictionary<ProdSiStare, int> dictionarTSalt, Dictionary<ProdSiStare, string> productii 
+)
+        {
+            this.dictionarTActiuni = dictionarTActiuni;
+            this.dictionarTSalt = dictionarTSalt;
+          this.productii= productii;
+        //    AfisareDictionarTActiuni();
+        }
+
         public void adaugaTActiuni()
         {
             dictionarTActiuni.Add(new ProdSiStare("a", 0), "d5");
@@ -144,13 +152,15 @@ namespace tema2
         }
         public void adaugaProductii()
         {
-            productii.Add(new ProdSiStare("E", 1), "E+T");
+            productii.Add(new ProdSiStare("E", 1), "E+T"); 
             productii.Add(new ProdSiStare("E", 2), "T");
             productii.Add(new ProdSiStare("T", 3), "T*F");
             productii.Add(new ProdSiStare("T", 4), "F");
             productii.Add(new ProdSiStare("F", 5), "(E)");
             productii.Add(new ProdSiStare("F", 6), "a");
-            productii.Add(new ProdSiStare("F", 7), "-(E)");
+            productii.Add(new ProdSiStare("E", 11), "E-T");
+            productii.Add(new ProdSiStare("F", 51), "-(E)");
+
         }
 
         public string cautareTA(ProdSiStare prodSiStare) 
@@ -166,7 +176,14 @@ namespace tema2
             Console.WriteLine("Nu exista!");
             return null;
         }
-        
+        public void AfisareDictionarTActiuni()
+        {
+            foreach (var entry in dictionarTActiuni)
+            {
+                Console.WriteLine($"Cheie: {entry.Key.productie},{entry.Key.stare} Valoare: {entry.Value}");
+            }
+        }
+
         public int cautareTS(ProdSiStare prodSiStare)
         {
             foreach (KeyValuePair<ProdSiStare, int> item in dictionarTSalt)

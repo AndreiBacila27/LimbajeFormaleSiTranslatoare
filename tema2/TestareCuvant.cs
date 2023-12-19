@@ -14,13 +14,18 @@ namespace tema2
     {
         string cuvIntrare;
         Stiva stiva;
-        Dictionar dictionar = new Dictionar();
+        Dictionar dictionar;
         string filePath;
         private List<string> terminale = new();
         private List<string> neterminale = new();
         private readonly List<string> productii = new();
         private Dictionary<(int, char), string> tabelaActiuni = new Dictionary<(int, char), string>();
         private Dictionary<(int, char), string> tabelaSalt = new Dictionary<(int, char), string>();
+
+        public Dictionary<ProdSiStare, string> dictionarTActiuni = new Dictionary<ProdSiStare, string>();
+        public Dictionary<ProdSiStare, int> dictionarTSalt = new Dictionary<ProdSiStare, int>();
+        public Dictionary<ProdSiStare, string> productii2 = new Dictionary<ProdSiStare, string>();
+
 
         private int randuri = 0;
 
@@ -32,9 +37,9 @@ namespace tema2
             Citire();
             Afisare();
             CitireTabela(filePath);
-            Console.log(dictionar.cautareTA(new ProdSiStare("E", 0)));
-           // AfisareTabelaActiuni();
-            //AfisareTabelaSalt();
+            dictionar = new Dictionar(dictionarTActiuni, dictionarTSalt,productii2);
+            //AfisareTabelaActiuni();
+           // AfisareTabelaSalt();
 
         }
         public void Tabela(string filePath)
@@ -42,12 +47,12 @@ namespace tema2
             Tabela tabela = new(terminale, neterminale, productii);
             tabela.LoadGrammar(filePath);
         }
-      
 
 
         public void Citire()
         {
             int i = 0;
+            int j = 0;
             foreach (string line in File.ReadLines("C:\\Users\\Andre\\Documents\\ULBS\\AN_3\\LimbajeFormaleSiTranslatoare\\tema2\\date.txt"))
             {
                 switch (i)
@@ -62,30 +67,21 @@ namespace tema2
 
                     default:
                         productii.Add(line);
+                        string[] parts = line.Split("->");
+                        if (parts.Length == 2)
+                        {
+                            j++;
+                            string neterminal = parts[0].Trim();
+                            string productie = parts[1].Trim();
+                            var prodSiStare = new ProdSiStare(neterminal, j);
+                            productii2[prodSiStare] = productie;
+                        }
                         break;
                 }
                 i++;
             }
         }
-        public void PopulateDictionarTActiuniFromTabelaSalt(Dictionary<(int, char), string> tabelaActiuni)
-        {
-            foreach (string s in terminale)
-            {
-                foreach (int i in Enumerable.Range(0, randuri))
-                {
-                    var key = (i, Char.Parse(s));
-                    if (tabelaSalt.ContainsKey(key))
-                    {
-                       dictionar.dictionarTActiuni[new ProdSiStare(s, i)] = tabelaActiuni[key];
-                    }
-                    else
-                    {
-                     
-                       dictionar.dictionarTActiuni[new ProdSiStare(s, i)] = "";
-                    }
-                }
-            }
-        }
+   
 
         public void CitireTabela(string filePath)
         {
@@ -97,17 +93,18 @@ namespace tema2
                 string[] cuv = line.Split(" ");
                 if (cuv.Length == neterminale.Count + terminale.Count + 1)
                 {
-                    // Populate tabelaActiuni
                     foreach (string s in terminale)
                     {
-                        tabelaActiuni[(randuri, Char.Parse(s))] = cuv[j++];
+                        var keyActiuni = new ProdSiStare(s, randuri);
+                        dictionarTActiuni[keyActiuni] = cuv[j++];
                     }
-                    tabelaActiuni[(randuri, '$')] = cuv[j++];
+                    var dollarKeyActiuni = new ProdSiStare("$", randuri);
+                 dictionarTActiuni[dollarKeyActiuni] = cuv[j++];
 
-                    // Populate tabelaSalt
                     foreach (string s in neterminale)
                     {
-                        tabelaSalt[(randuri, Char.Parse(s))] = cuv[j++];
+                        var keySalt = new ProdSiStare(s, randuri);
+                      dictionarTSalt[keySalt] = Int32.Parse(cuv[j++]);
                     }
                     randuri++;
                 }
@@ -219,6 +216,7 @@ namespace tema2
         {
             Console.WriteLine("reducere");
             int lungimeProdDr = dictionar.cautareProdDreapta(stare).Length;
+   
             string productieStanga = dictionar.cautareProdStanga(stare);
             for (int i = 0; i < lungimeProdDr; i++)
             {
@@ -238,9 +236,9 @@ namespace tema2
             ProdSiStare elementCurentStiva = stiva.EliminareDinStiva();
             stiva.AdaugaInStiva(elementCurentStiva);
             int stare = elementCurentStiva.stare;
+
             string caracter = cuvIntrare.Substring(0, 1);
             string actiune = dictionar.cautareTA(new ProdSiStare(caracter, stare));
-
             int stare2 = 0;
             if (actiune.Substring(0, 1) == "d")
             {
@@ -276,13 +274,13 @@ namespace tema2
                 Reducere(stare2);
             }
             else
-            if (actiune == "acc")
+            if (actiune == "ac")
             {
 
                 return 1;
             }
             else
-            if (actiune == "err")
+            if (actiune == "00")
             {
                 return 2;
             }
