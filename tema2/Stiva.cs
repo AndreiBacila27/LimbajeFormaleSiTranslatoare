@@ -9,12 +9,15 @@ namespace tema2
     class Stiva
     {
         Stack<ProdSiStare>stiva = new Stack<ProdSiStare>();
-        ProdSiStare OBJprodsistare;
 
         public Stiva(Stack<ProdSiStare> stiva) 
         {
             this.stiva = stiva;
             InitializareStiva();
+        }
+        public Stiva()
+        {
+          
         }
 
         public void InitializareStiva() 
@@ -35,8 +38,13 @@ namespace tema2
         {
             foreach (ProdSiStare item in stiva)
             {
-                Console.Write(item.productie + item.stare);
+               // Console.Write(item.productie + item.stare);
             }
+            Console.WriteLine();
+        }
+        public int MarimeStiva()
+        {
+            return stiva.Count;
         }
     }
 }

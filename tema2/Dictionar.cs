@@ -23,8 +23,8 @@ namespace tema2
         {
             this.dictionarTActiuni = dictionarTActiuni;
             this.dictionarTSalt = dictionarTSalt;
-          this.productii= productii;
-        //    AfisareDictionarTActiuni();
+            this.productii= productii;
+            //AfisareDictionarTActiuni();
         }
 
         public void adaugaTActiuni()

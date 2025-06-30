@@ -1,8 +1,11 @@
 ﻿using GramaticiLR1;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Text;
@@ -26,20 +29,25 @@ namespace tema2
         public Dictionary<ProdSiStare, int> dictionarTSalt = new Dictionary<ProdSiStare, int>();
         public Dictionary<ProdSiStare, string> productii2 = new Dictionary<ProdSiStare, string>();
 
-
         private int randuri = 0;
+
+        StivaDeAtribute stivaDeAtribute = new StivaDeAtribute();
+        int nrSimbolA = 1;
+        string eticheta = "";
+        string intermediar = "";
+        int nrT = 1;
 
         public TestareCuvant(string cuvIntrare, Stiva stiva, string filePath)
         {
             this.cuvIntrare = cuvIntrare;
             this.stiva = stiva;
-            this.filePath= filePath;
+            this.filePath = filePath;
             Citire();
-            Afisare();
+            //Afisare();
             CitireTabela(filePath);
-            dictionar = new Dictionar(dictionarTActiuni, dictionarTSalt,productii2);
+            dictionar = new Dictionar(dictionarTActiuni, dictionarTSalt, productii2);
             //AfisareTabelaActiuni();
-           // AfisareTabelaSalt();
+            // AfisareTabelaSalt();
 
         }
         public void Tabela(string filePath)
@@ -81,7 +89,7 @@ namespace tema2
                 i++;
             }
         }
-   
+
 
         public void CitireTabela(string filePath)
         {
@@ -99,12 +107,12 @@ namespace tema2
                         dictionarTActiuni[keyActiuni] = cuv[j++];
                     }
                     var dollarKeyActiuni = new ProdSiStare("$", randuri);
-                 dictionarTActiuni[dollarKeyActiuni] = cuv[j++];
+                    dictionarTActiuni[dollarKeyActiuni] = cuv[j++];
 
                     foreach (string s in neterminale)
                     {
                         var keySalt = new ProdSiStare(s, randuri);
-                      dictionarTSalt[keySalt] = Int32.Parse(cuv[j++]);
+                        dictionarTSalt[keySalt] = Int32.Parse(cuv[j++]);
                     }
                     randuri++;
                 }
@@ -122,43 +130,36 @@ namespace tema2
             foreach (string s in terminale)
                 Console.Write("{0}    ", s);
             Console.Write("$    ");
-          
+
             Console.WriteLine();
             for (int i = 0; i < randuri; i++)
             {
+                if (i < 10)
+                    Console.Write("{0} |", i);
+                else
+                    Console.Write("{0}|", i);
 
-                
-                    if (i < 10)
-                        Console.Write("{0} |", i);
-                    else
-                        Console.Write("{0}|", i);
-
-                    foreach (string s in terminale)
-                    {
-                        var key = (i, Char.Parse(s));
-                        if (tabelaActiuni.ContainsKey(key))
-                            Console.Write("{0}   ", tabelaActiuni[key]);
-                        else
-                            Console.Write("Key not found   ");
-                    }
-
-                    var dollarKey = (i, '$');
-                    if (tabelaActiuni.ContainsKey(dollarKey))
-                        Console.Write("{0}   ", tabelaActiuni[dollarKey]);
+                foreach (string s in terminale)
+                {
+                    var key = (i, Char.Parse(s));
+                    if (tabelaActiuni.ContainsKey(key))
+                        Console.Write("{0}   ", tabelaActiuni[key]);
                     else
                         Console.Write("Key not found   ");
-
-
-                    Console.WriteLine();
-                
-
+                }
+                var dollarKey = (i, '$');
+                if (tabelaActiuni.ContainsKey(dollarKey))
+                    Console.Write("{0}   ", tabelaActiuni[dollarKey]);
+                else
+                    Console.Write("Key not found   ");
+                Console.WriteLine();
             }
         }
 
         public void AfisareTabelaSalt()
         {
             Console.Write("   ");
-           
+
             foreach (string s in neterminale)
                 Console.Write("{0}   ", s);
             Console.WriteLine();
@@ -168,10 +169,6 @@ namespace tema2
                     Console.Write("{0} |", i);
                 else
                     Console.Write("{0}|", i);
-
-
-               
-
                 foreach (string s in neterminale)
                 {
                     var key = (i, Char.Parse(s));
@@ -204,35 +201,88 @@ namespace tema2
 
         public void Deplasare(int stare)
         {
-            Console.WriteLine("deplasare");
+            //Console.WriteLine("deplasare");
             string primulElement = cuvIntrare.Substring(0, 1);
             stiva.AdaugaInStiva(new ProdSiStare(primulElement, stare));
             cuvIntrare = cuvIntrare.Substring(1);
             stiva.AfisareStiva();
         }
-    
 
+        public bool CautareSemnInTerminale(ProdSiStare elem)
+        {
+            for (int i = 0; i < terminale.Count; i++)
+            {
+                if (terminale[i] == elem.productie)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public void Reducere(int stare)
         {
-            Console.WriteLine("reducere");
+            //Console.WriteLine("reducere");
+            ProdSiStare ps = null;
             int lungimeProdDr = dictionar.cautareProdDreapta(stare).Length;
-   
             string productieStanga = dictionar.cautareProdStanga(stare);
-            for (int i = 0; i < lungimeProdDr; i++)
+            string productieDreapta = dictionar.cautareProdDreapta(stare);
+
+            if (productieDreapta == "a")
             {
-                stiva.EliminareDinStiva();
+                stivaDeAtribute.AdaugaInStiva(new ProdSiStare(productieDreapta, nrSimbolA));
+                nrSimbolA++;
             }
-            ProdSiStare ps = stiva.EliminareDinStiva();
-            int stareComparatie = ps.stare;
-            stiva.AdaugaInStiva(ps);
-            int stareRez = dictionar.cautareTS(new ProdSiStare(productieStanga, stareComparatie));
-            ProdSiStare rez = new ProdSiStare(productieStanga, stareRez);
-            stiva.AdaugaInStiva(rez);
+            if (lungimeProdDr >= 2 && productieDreapta != "a")
+            {
+                while (lungimeProdDr > 0)
+                {
+                    if (stiva.MarimeStiva() > lungimeProdDr)
+                    {
+                        ProdSiStare prodsistare = stiva.EliminareDinStiva();
+                        if (CautareSemnInTerminale(prodsistare))
+                        {
+                            if (prodsistare.productie != "(" && prodsistare.productie != ")")
+                            {
+                                eticheta = prodsistare.productie + eticheta;
+                            }
+                        }
+                        else
+                        {
+                            ps = stivaDeAtribute.EliminareDinStiva();
+                            eticheta = ps.productie + ps.stare + eticheta;
+                        }
+                    }
+                    lungimeProdDr--;
+                }
+                intermediar = "t" + nrT.ToString();
+                stivaDeAtribute.AdaugaInStiva(new ProdSiStare("t", nrT));
+                if (eticheta.Substring(0, 1) == "-")
+                {
+                    eticheta = eticheta.Substring(1);
+                    eticheta = "uminus " + eticheta;
+                }
+                intermediar = intermediar + " = " + eticheta;
+                eticheta = "";
+                Console.WriteLine();
+                Console.WriteLine(intermediar);
+                Console.WriteLine();
+                nrT++;
+            }
+            else {
+                ProdSiStare perecheDePeStiva = stiva.EliminareDinStiva();
+            }
+            ProdSiStare elem = stiva.EliminareDinStiva();
+            int stareComp = elem.stare;
+            stiva.AdaugaInStiva(elem);
+            int stareRez = dictionar.cautareTS(new ProdSiStare(productieStanga, stareComp));
+            ProdSiStare e = new ProdSiStare(productieStanga, stareRez);
+            stiva.AdaugaInStiva(e);
         }
+        
         public int formareStiva()
         {
             stiva.AfisareStiva();
-            Console.WriteLine("Cuvantul de intrare: " + cuvIntrare);
+           // Console.WriteLine("Cuvantul de intrare: " + cuvIntrare);
             ProdSiStare elementCurentStiva = stiva.EliminareDinStiva();
             stiva.AdaugaInStiva(elementCurentStiva);
             int stare = elementCurentStiva.stare;
